@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>मागाडे करिअर्स | Magade Careers - सरकारी व खाजगी भरती आणि जलद सराव चाचणी</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            marathi: ['"Noto Sans Devanagari"', 'sans-serif'],
+            sans: ['"Inter"', 'sans-serif']
+          },
+          colors: {
+            brand: {
+              50: '#fff7ed',
+              100: '#ffedd5',
+              500: '#f97316',
+              600: '#ea580c',
+              700: '#c2410c',
+              800: '#9a3412',
+              navy: '#0f172a'
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      font-family: 'Noto Sans Devanagari', 'Inter', sans-serif;
+      scroll-behavior: smooth;
+    }
+    @keyframes ticker {
+      0% { transform: translateX(100%); }
+      100% { transform: translateX(-100%); }
+    }
+    .ticker-animate {
+      display: inline-block;
+      white-space: nowrap;
+      animation: ticker 25s linear infinite;
+    }
+    .ticker-container:hover .ticker-animate {
+      animation-play-state: paused;
+    }
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased min-h-screen flex flex-col">
+
+  <!-- Top Notification Bar -->
+  <div class="bg-brand-navy text-white text-xs sm:text-sm py-1.5 px-4">
+    <div class="max-w-7xl mx-auto flex justify-between items-center">
+      <div class="flex items-center space-x-2 space-x-reverse overflow-hidden">
+        <span class="bg-red-600 text-white font-bold px-2 py-0.5 rounded text-[11px] animate-pulse">महत्त्वाचे</span>
+        <span class="truncate">महाराष्ट्र शासकीय, निमशासकीय व खाजगी नोकऱ्यांचे रोजचे मोफत अपडेट्स मिळवा!</span>
+      </div>
+      <div class="hidden sm:flex items-center space-x-3 text-xs">
+        <span>📅 आजची तारीख: <span id="currentDate"></span></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Header -->
+  <header class="sticky top-0 z-40 bg-white border-b border-slate-200 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-16 sm:h-20">
+        
+        <!-- Logo -->
+        <a href="#" class="flex items-center space-x-3">
+          <div class="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-tr from-brand-600 to-amber-500 rounded-xl flex items-center justify-center text-white text-xl sm:text-2xl font-black shadow-md shadow-orange-500/20">
+            M
+          </div>
+          <div>
+            <div class="flex items-center">
+              <span class="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">मागाडे <span class="text-brand-600">करिअर्स</span></span>
+              <span class="bg-emerald-100 text-emerald-800 text-[10px] font-bold px-1.5 py-0.5 rounded ml-1.5">Official</span>
+            </div>
+            <p class="text-[11px] text-slate-500 hidden sm:block">योग्य संधी, योग्य दिशा – Magade Careers</p>
+          </div>
+        </a>
+
+        <!-- Navigation -->
+        <nav class="hidden md:flex items-center space-x-1 lg:space-x-3 text-sm font-semibold text-slate-700">
+          <a href="#jobs-section" class="px-3 py-2 rounded-lg hover:text-brand-600 hover:bg-orange-50 transition">नवीन भरती</a>
+          <a href="#jobs-section" onclick="filterCategory('हॉल तिकीट')" class="px-3 py-2 rounded-lg hover:text-brand-600 hover:bg-orange-50 transition">हॉल तिकीट</a>
+          <a href="#jobs-section" onclick="filterCategory('निकाल')" class="px-3 py-2 rounded-lg hover:text-brand-600 hover:bg-orange-50 transition">निकाल</a>
+          <a href="#quiz-section" class="px-3 py-2 rounded-lg text-emerald-700 bg-emerald-50 hover:bg-emerald-100 transition flex items-center">
+            ✍️ जलद मॉक टेस्ट
+          </a>
+        </nav>
+
+        <!-- Social Share & Menu -->
+        <div class="flex items-center space-x-2">
+          <a href="https://api.whatsapp.com/send?text=स्पर्धा%20परीक्षा%20व%20नोकरी%20अपडेट्ससाठी%20मागाडे%20करिअर्सला%20भेट%20द्या!" target="_blank" class="hidden sm:inline-flex items-center px-3 py-2 text-xs font-bold text-white bg-emerald-600 hover:bg-emerald-700 rounded-lg shadow-sm transition">
+            💬 WhatsApp ग्रुप
+          </a>
+          <button id="mobileMenuBtn" class="md:hidden p-2 rounded-lg text-slate-600 hover:bg-slate-100">
+            ☰
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Mobile Drawer Menu -->
+    <div id="mobileMenu" class="hidden md:hidden border-t border-slate-100 bg-white px-4 pt-2 pb-4 space-y-1">
+      <a href="#jobs-section" class="block px-3 py-2 text-sm font-semibold rounded-md text-slate-800 hover:bg-orange-50">नवीन जाहिराती</a>
+      <a href="#jobs-section" onclick="filterCategory('हॉल तिकीट'); toggleMobileMenu()" class="block px-3 py-2 text-sm font-semibold rounded-md text-slate-800 hover:bg-orange-50">हॉल तिकीट</a>
+      <a href="#jobs-section" onclick="filterCategory('निकाल'); toggleMobileMenu()" class="block px-3 py-2 text-sm font-semibold rounded-md text-slate-800 hover:bg-orange-50">निकाल</a>
+      <a href="#quiz-section" onclick="toggleMobileMenu()" class="block px-3 py-2 text-sm font-semibold rounded-md text-emerald-700 bg-emerald-50">जलद मॉक टेस्ट</a>
+    </div>
+  </header>
+
+  <!-- News Ticker -->
+  <div class="bg-amber-100 border-y border-amber-200 overflow-hidden py-2 px-4 ticker-container">
+    <div class="max-w-7xl mx-auto flex items-center">
+      <span class="bg-brand-600 text-white font-bold text-xs px-2.5 py-1 rounded shrink-0 mr-3 shadow-sm">
+        ⚡ ताज्या घडामोडी:
+      </span>
+      <div class="overflow-hidden w-full">
+        <div class="ticker-animate text-slate-800 text-sm font-medium">
+          🔥 महाराष्ट्र पोलीस कॉन्स्टेबल भरती जाहिरात प्रसिद्ध! &nbsp;&bull;&nbsp; 
+          📌 तलाठी भरती अंतिम गुणवत्ता यादी जाहीर &nbsp;&bull;&nbsp; 
+          ⭐ IBPS बँक क्लर्क ७,१५० जागांसाठी अर्ज सुरू &nbsp;&bull;&nbsp; 
+          📢 जिल्हा परिषद आरोग्य सेवक परीक्षा हॉल तिकीट उपलब्ध &nbsp;&bull;&nbsp; 
+          📝 खालील मोफत सराव टेस्ट नक्की सोडवा!
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Body -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 flex-grow w-full">
+
+    <!-- Hero Card -->
+    <div class="rounded-2xl bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 text-white p-6 sm:p-8 mb-8 shadow-lg relative overflow-hidden">
+      <div class="relative z-10 max-w-2xl">
+        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-orange-500/20 text-orange-400 border border-orange-500/30 mb-3">
+          ✓ 100% मोफत व पडताळणी केलेले अपडेट्स
+        </span>
+        <h1 class="text-2xl sm:text-4xl font-extrabold tracking-tight leading-tight text-white mb-2">
+          नोकरी शोधताय? सर्व भरतींची अचूक माहिती व मोफत सराव येथे!
+        </h1>
+        <p class="text-slate-300 text-sm sm:text-base mb-5">
+          अधिकृत जाहिरात PDF, शैक्षणिक पात्रता, वयोमर्यादा व थेट अर्ज लिंक एकाच क्लिकवर. सोबत सोडवा रोजची जलद सराव चाचणी.
+        </p>
+        <div class="flex flex-wrap gap-3">
+          <a href="#jobs-section" class="px-5 py-2.5 bg-brand-600 hover:bg-brand-700 text-white font-bold rounded-xl text-sm transition shadow-md flex items-center">
+            💼 चालू भरती पहा
+          </a>
+          <a href="#quiz-section" class="px-5 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl text-sm transition shadow-md flex items-center">
+            ✏️ आजची मॉक टेस्ट
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section: Jobs -->
+    <section id="jobs-section" class="mb-12">
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
+        <div>
+          <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center">
+            <span class="w-2.5 h-6 bg-brand-600 rounded mr-2.5"></span>
+            नवीनतम नोकरी जाहिराती (Job Alerts)
+          </h2>
+          <p class="text-slate-500 text-xs sm:text-sm mt-0.5">खालील जाहिराती काळजीपूर्वक तपासा आणि थेट अर्ज करा</p>
+        </div>
+
+        <!-- Search Bar -->
+        <div class="relative w-full md:w-72">
+          <input 
+            type="text" 
+            id="jobSearchInput" 
+            onkeyup="searchJobs()" 
+            placeholder="जॉब शोधा (उदा. पोलीस, बँक, तलाठी)..." 
+            class="w-full bg-white border border-slate-300 rounded-xl px-4 py-2 pl-4 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 shadow-sm"
+          >
+        </div>
+      </div>
+
+      <!-- Filters -->
+      <div class="flex items-center gap-2 overflow-x-auto pb-2 mb-6" id="categoryFilterContainer">
+        <button onclick="filterCategory('सर्व')" class="filter-pill active px-4 py-1.5 rounded-full text-xs font-semibold bg-brand-600 text-white whitespace-nowrap transition shadow-sm">सर्व भरती</button>
+        <button onclick="filterCategory('पोलीस भरती')" class="filter-pill px-4 py-1.5 rounded-full text-xs font-semibold bg-white border border-slate-200 text-slate-700 hover:bg-slate-100 whitespace-nowrap transition">पोलीस भरती</button>
+        <button onclick="filterCategory('सरळसेवा व तलाठी')" class="filter-pill px-4 py-1.5 rounded-full text-xs font-semibold bg-white border border-slate-200 text-slate-700 hover:bg-slate-100 whitespace-nowrap transition">तलाठी व ZP</button>
+        <button onclick="filterCategory('बँक व रेल्वे')" class="filter-pill px-4 py-1.5 rounded-full text-xs font-semibold bg-white border border-slate-200 text-slate-700 hover:bg-slate-100 whitespace-nowrap transition">बँक व रेल्वे</button>
+        <button onclick="filterCategory('हॉल तिकीट')" class="filter-pill px-4 py-1.5 rounded-full text-xs font-semibold bg-white border border-slate-200 text-slate-700 hover:bg-slate-100 whitespace-nowrap transition">हॉल तिकीट</button>
+        <button onclick="filterCategory('निकाल')" class="filter-pill px-4 py-1.5 rounded-full text-xs font-semibold bg-white border border-slate-200 text-slate-700 hover:bg-slate-100 whitespace-nowrap transition">निकाल</button>
+      </div>
+
+      <!-- Job Cards Grid -->
+      <div id="jobGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5"></div>
+      
+      <!-- No Results -->
+      <div id="noResults" class="hidden text-center py-12 bg-white rounded-2xl border border-dashed border-slate-300">
+        <p class="text-slate-600 font-medium">आपण शोधलेली जाहिरात सापडली नाही.</p>
+        <button onclick="resetFilters()" class="mt-3 text-xs text-brand-600 font-bold hover:underline">सर्व जाहिराती पुन्हा दाखवा</button>
+      </div>
+    </section>
+
+    <!-- SECTION: Mock Test -->
+    <section id="quiz-section" class="mb-12 scroll-mt-24">
+      <div class="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden">
+        
+        <div class="bg-gradient-to-r from-emerald-800 to-teal-900 text-white p-5 sm:p-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+          <div>
+            <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-200 border border-emerald-400/30 text-xs font-semibold mb-1.5">
+              🏆 मागाडे करिअर्स - मोफत सराव
+            </div>
+            <h2 class="text-xl sm:text-2xl font-bold">महाराष्ट्र पोलीस व तलाठी जलद मॉक टेस्ट #०१</h2>
+            <p class="text-emerald-100 text-xs sm:text-sm mt-0.5">विषय: मराठी व्याकरण, सामान्य ज्ञान व चालू घडामोडी</p>
+          </div>
+
+          <div class="flex items-center gap-3">
+            <div class="bg-white/10 backdrop-blur px-3 py-1.5 rounded-xl border border-white/20 text-center">
+              <span class="text-[10px] uppercase tracking-wider block text-emerald-200 font-semibold">वेळ शिल्लक</span>
+              <span id="quizTimer" class="text-lg font-mono font-bold text-amber-300">०५:००</span>
+            </div>
+            <button id="resetQuizBtn" onclick="initQuiz()" class="text-xs bg-white/10 hover:bg-white/20 text-white px-3 py-2 rounded-xl transition flex items-center">
+              🔄 रीसेट
+            </button>
+          </div>
+        </div>
+
+        <div class="w-full bg-slate-100 h-1.5">
+          <div id="quizProgressBar" class="bg-emerald-500 h-1.5 transition-all duration-300" style="width: 20%;"></div>
+        </div>
+
+        <div class="p-5 sm:p-8" id="quizBody">
+          
+          <div id="questionContainer">
+            <div class="flex justify-between items-center mb-4">
+              <span class="text-xs font-bold uppercase tracking-wider text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-md" id="questionCategory">सामान्य ज्ञान</span>
+              <span class="text-xs font-semibold text-slate-500" id="questionCounter">प्रश्न १ / ५</span>
+            </div>
+
+            <h3 class="text-lg sm:text-xl font-bold text-slate-900 mb-6 leading-relaxed" id="questionText">
+              प्रश्नाचा मसुदा लोड होत आहे...
+            </h3>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-6" id="optionsGrid"></div>
+
+            <div id="instantFeedback" class="hidden p-4 rounded-xl mb-6 text-sm">
+              <div class="font-bold flex items-center gap-1.5 mb-1" id="feedbackTitle"></div>
+              <div class="text-slate-600 text-xs sm:text-sm" id="feedbackExplanation"></div>
+            </div>
+
+            <div class="flex justify-between items-center pt-4 border-t border-slate-100">
+              <button id="prevQuestionBtn" onclick="prevQuestion()" class="px-4 py-2 text-xs sm:text-sm font-semibold text-slate-600 hover:text-slate-900 bg-slate-100 rounded-xl transition disabled:opacity-40">
+                ← मागील
+              </button>
+              <button id="nextQuestionBtn" onclick="nextQuestion()" class="px-6 py-2.5 text-xs sm:text-sm font-bold text-white bg-emerald-600 hover:bg-emerald-700 rounded-xl transition shadow-md shadow-emerald-600/20">
+                पुढील प्रश्न →
+              </button>
+            </div>
+          </div>
+
+          <!-- Result Card -->
+          <div id="quizResultCard" class="hidden text-center py-6">
+            <div class="w-16 h-16 sm:w-20 sm:h-20 mx-auto rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center text-3xl sm:text-4xl mb-4">
+              🏆
+            </div>
+            <h3 class="text-2xl font-black text-slate-900 mb-1">अभिनंदन! चाचणी पूर्ण झाली.</h3>
+            <p class="text-slate-500 text-sm mb-6">मागाडे करिअर्स सराव निकाल</p>
+
+            <div class="max-w-md mx-auto grid grid-cols-3 gap-3 bg-slate-50 p-4 rounded-2xl border border-slate-200 mb-6">
+              <div class="text-center">
+                <span class="text-xs text-slate-500 block">एकूण प्रश्न</span>
+                <span class="text-xl font-bold text-slate-800" id="resTotal">५</span>
+              </div>
+              <div class="text-center">
+                <span class="text-xs text-emerald-600 block font-semibold">बरोबर</span>
+                <span class="text-xl font-bold text-emerald-600" id="resCorrect">०</span>
+              </div>
+              <div class="text-center">
+                <span class="text-xs text-red-500 block font-semibold">चूक</span>
+                <span class="text-xl font-bold text-red-500" id="resWrong">०</span>
+              </div>
+            </div>
+
+            <div class="flex flex-col sm:flex-row justify-center gap-3">
+              <button id="shareScoreBtn" onclick="shareScoreOnWhatsApp()" class="px-5 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl text-sm transition flex items-center justify-center shadow">
+                💬 मित्रांना स्कोअर पाठवून चॅलेंज करा
+              </button>
+              <button onclick="initQuiz()" class="px-5 py-2.5 bg-slate-200 hover:bg-slate-300 text-slate-800 font-bold rounded-xl text-sm transition">
+                🔄 पुन्हा टेस्ट द्या
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Job Modal Popup -->
+  <div id="jobModal" class="fixed inset-0 z-50 hidden bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
+    <div class="bg-white rounded-2xl max-w-2xl w-full shadow-2xl overflow-hidden border border-slate-100 my-8">
+      
+      <div class="bg-slate-900 text-white p-5 flex justify-between items-start">
+        <div>
+          <span class="bg-brand-600 text-white text-[11px] font-bold px-2.5 py-0.5 rounded" id="modalCategory">वर्ग</span>
+          <h3 class="text-lg sm:text-xl font-bold mt-2" id="modalTitle">पदाचे नाव</h3>
+          <p class="text-xs text-slate-300 mt-1" id="modalDepartment">विभागाचे नाव</p>
+        </div>
+        <button onclick="closeJobModal()" class="text-slate-400 hover:text-white text-xl p-1 focus:outline-none">
+          ✕
+        </button>
+      </div>
+
+      <div class="p-6 space-y-4 max-h-[65vh] overflow-y-auto text-sm text-slate-700">
+        <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 bg-slate-50 p-3.5 rounded-xl border border-slate-200">
+          <div>
+            <span class="text-xs text-slate-500 block font-medium">एकूण जागा:</span>
+            <span class="font-bold text-slate-900" id="modalPosts">--</span>
+          </div>
+          <div>
+            <span class="text-xs text-slate-500 block font-medium">शेवटची तारीख:</span>
+            <span class="font-bold text-red-600" id="modalLastDate">--</span>
+          </div>
+          <div>
+            <span class="text-xs text-slate-500 block font-medium">नोकरीचे ठिकाण:</span>
+            <span class="font-bold text-slate-900" id="modalLocation">महाराष्ट्र</span>
+          </div>
+        </div>
+
+        <div>
+          <h4 class="font-bold text-slate-900 text-xs uppercase tracking-wider mb-1 text-brand-600">शैक्षणिक पात्रता:</h4>
+          <p class="text-slate-700 bg-orange-50/50 p-2.5 rounded-lg border border-orange-100 text-xs sm:text-sm" id="modalQualification">--</p>
+        </div>
+
+        <div>
+          <h4 class="font-bold text-slate-900 text-xs uppercase tracking-wider mb-1 text-brand-600">वयोमर्यादा व फी:</h4>
+          <p class="text-slate-700 text-xs sm:text-sm" id="modalAgeFee">--</p>
+        </div>
+
+        <div>
+          <h4 class="font-bold text-slate-900 text-xs uppercase tracking-wider mb-1 text-brand-600">सविस्तर माहिती:</h4>
+          <p class="text-slate-600 text-xs leading-relaxed" id="modalDescription">--</p>
+        </div>
+      </div>
+
+      <div class="bg-slate-50 px-6 py-4 border-t border-slate-200 flex flex-wrap gap-2 justify-between items-center">
+        <a id="modalPdfLink" href="#" target="_blank" class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white font-bold rounded-xl text-xs flex items-center transition">
+          📄 मूळ जाहिरात PDF
+        </a>
+        <div class="flex gap-2">
+          <button onclick="shareJobOnWhatsApp()" class="px-3.5 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl text-xs flex items-center transition">
+            💬 शेअर करा
+          </button>
+          <a id="modalApplyLink" href="#" target="_blank" class="px-5 py-2 bg-brand-600 hover:bg-brand-700 text-white font-bold rounded-xl text-xs flex items-center transition">
+            ऑनलाईन अर्ज करा →
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="bg-slate-900 text-slate-400 text-xs mt-auto pt-8 pb-6 border-t border-slate-800">
+    <div class="max-w-7xl mx-auto px-4 text-center space-y-2">
+      <p class="text-white font-bold text-sm">मागाडे करिअर्स (Magade Careers) &copy; 2026</p>
+      <p class="text-[11px] text-slate-500">महाराष्ट्रातील तरुणांसाठी विश्वसनीय जॉब अलर्ट आणि जलद सराव व्यासपीठ.</p>
+    </div>
+  </footer>
+
+  <!-- SCRIPT -->
+  <script>
+    let jobListings = [
+      {
+        id: 1,
+        title: "महाराष्ट्र पोलीस शिपाई व चालक भरती",
+        department: "महाराष्ट्र राज्य पोलीस दल",
+        category: "पोलीस भरती",
+        posts: "१७,४७१ जागा",
+        qualification: "१२ वी (HSC) उत्तीर्ण किंवा समकक्ष",
+        lastDate: "३० नोव्हेंबर २०२६",
+        location: "संपूर्ण महाराष्ट्र",
+        ageFee: "वय १८ ते २८ वर्षे | फी: ₹४५० / ₹३५०",
+        description: "महाराष्ट्र राज्य पोलीस दलात पोलीस शिपाई, चालक आणि SRPF पदांसाठी भरती.",
+        pdfUrl: "https://policerecruitment2024.mahait.org",
+        applyUrl: "https://policerecruitment2024.mahait.org",
+        badge: "मोठी भरती",
+        badgeColor: "bg-red-500"
+      },
+      {
+        id: 2,
+        title: "तलाठी व महसूल साहाय्यक सरळसेवा भरती",
+        department: "महसूल व वन विभाग, महाराष्ट्र",
+        category: "सरळसेवा व तलाठी",
+        posts: "४,६४४ जागा",
+        qualification: "कोणत्याही शाखेची पदवी (Degree) + MSCIT",
+        lastDate: "१५ डिसेंबर २०२६",
+        location: "सर्व जिल्हे (महाराष्ट्र)",
+        ageFee: "वय १९ ते ३८ वर्षे | फी: ₹१००० / ₹९००",
+        description: "महाराष्ट्र शासनाच्या महसूल विभागातील तलाठी (गट-क) रिक्त पदांची भरती.",
+        pdfUrl: "https://mahabhumi.gov.in",
+        applyUrl: "https://mahabhumi.gov.in",
+        badge: "प्रसिद्ध",
+        badgeColor: "bg-blue-600"
+      },
+      {
+        id: 3,
+        title: "IBPS Clerk भरती (सार्वजनिक क्षेत्रातील बँका)",
+        department: "इंस्टिट्यूट ऑफ बँकिंग पर्सोनेल सिलेक्शन",
+        category: "बँक व रेल्वे",
+        posts: "७,१५० जागा",
+        qualification: "कोणत्याही शाखेतील पदवीधर",
+        lastDate: "२८ नोव्हेंबर २०२६",
+        location: "महाराष्ट्र व भारतभर",
+        ageFee: "वय २० ते २८ वर्षे | फी: SC/ST ₹१७५, इतर ₹८५०",
+        description: "बँक ऑफ महाराष्ट्र, PNB यांसारख्या राष्ट्रीयीकृत बँकांमध्ये लिपिक संवर्गात भरती.",
+        pdfUrl: "https://ibps.in",
+        applyUrl: "https://ibps.in",
+        badge: "बँक नोकरी",
+        badgeColor: "bg-purple-600"
+      },
+      {
+        id: 4,
+        title: "जिल्हा परिषद आरोग्य सेवक व परिचारिका हॉल तिकीट",
+        department: "ग्रामविकास विभाग (ZP)",
+        category: "हॉल तिकीट",
+        posts: "प्रवेशपत्र उपलब्ध",
+        qualification: "१० वी/१२ वी विज्ञान + ANM/GNM",
+        lastDate: "परीक्षा दि: २५ नोव्हेंबर",
+        location: "महाराष्ट्र",
+        ageFee: "हॉल तिकीट डाऊनलोडसाठी लॉगिन आवश्यक",
+        description: "आरोग्य सेवक पदांच्या लेखी परीक्षेचे अधिकृत प्रवेशपत्र उपलब्ध झाले आहे.",
+        pdfUrl: "https://rdd.maharashtra.gov.in",
+        applyUrl: "https://rdd.maharashtra.gov.in",
+        badge: "हॉल तिकीट",
+        badgeColor: "bg-amber-600"
+      },
+      {
+        id: 5,
+        title: "रेल्वे सुरक्षा दल (RPF) कॉन्स्टेबल व SI भरती",
+        department: "रेल्वे भरती बोर्ड (RRB)",
+        category: "बँक व रेल्वे",
+        posts: "४,६६० जागा",
+        qualification: "१० वी उत्तीर्ण / पदवीधर",
+        lastDate: "०५ जानेवारी २०२७",
+        location: "मध्य व पश्चिम रेल्वे",
+        ageFee: "वय १८ ते २८ वर्षे | फी: ₹५००",
+        description: "भारतीय रेल्वेमध्ये सुरक्षितता दलात नोकरीची सुवर्णसंधी.",
+        pdfUrl: "https://rrbmumbai.gov.in",
+        applyUrl: "https://rrbmumbai.gov.in",
+        badge: "रेल्वे भरती",
+        badgeColor: "bg-emerald-600"
+      },
+      {
+        id: 6,
+        title: "MPSC राज्यसेवा संयुक्त पूर्व परीक्षा २०२६ निकाल जाहीर",
+        department: "महाराष्ट्र लोकसेवा आयोग (MPSC)",
+        category: "निकाल",
+        posts: "गुणवत्ता यादी PDF",
+        qualification: "पूर्व परीक्षा उत्तीर्ण उमेदवार",
+        lastDate: "मुख्य परीक्षा अर्ज लवकरच",
+        location: "महाराष्ट्र",
+        ageFee: "कट-ऑफ गुण आणि यादी उपलब्ध",
+        description: "गट-अ आणि गट-ब राजपत्रित पूर्व परीक्षेचा निकाल प्रसिद्ध झाला आहे.",
+        pdfUrl: "https://mpsc.gov.in",
+        applyUrl: "https://mpsc.gov.in",
+        badge: "निकाल",
+        badgeColor: "bg-rose-600"
+      }
+    ];
+
+    let quizQuestions = [
+      {
+        id: 1,
+        category: "सामान्य ज्ञान (महाराष्ट्र)",
+        question: "महाराष्ट्रातील सर्वात उंच शिखर 'कळसूबाई' कोणत्या जिल्ह्यात आहे?",
+        options: ["पुणे", "अहमदनगर", "नाशिक", "सातारा"],
+        correctIndex: 1,
+        explanation: "कळसूबाई शिखराची उंची १,६४६ मीटर असून ते अहमदनगर (अकोले) जिल्ह्यात आहे."
+      },
+      {
+        id: 2,
+        category: "मराठी व्याकरण",
+        question: "'सूर्योदय' या शब्दाचा योग्य संधी विग्रह ओळखा:",
+        options: ["सूर्य + उदय", "सूर्या + उदय", "सूर्य + दय", "सूर्यो + दय"],
+        correctIndex: 0,
+        explanation: "'सूर्य + उदय' = अ + उ = ओ (गुणादेश स्वरसंधी)."
+      },
+      {
+        id: 3,
+        category: "चालू घडामोडी",
+        question: "भारताचे सध्याचे मुख्य निवडणूक आयुक्त (CEC) कोण आहेत?",
+        options: ["राजीव कुमार", "सुशील चंद्रा", "सुनील अरोरा", "ज्ञानेश कुमार"],
+        correctIndex: 0,
+        explanation: "श्री राजीव कुमार हे भारताचे २५ वे मुख्य निवडणूक आयुक्त आहेत."
+      },
+      {
+        id: 4,
+        category: "इतिहास / राज्यशास्त्र",
+        question: "भारताची राज्यघटना केव्हा अमलात (लागू) आली?",
+        options: ["१५ ऑगस्ट १९४७", "२६ नोव्हेंबर १९४९", "२६ जानेवारी १९५०", "०१ मे १९६०"],
+        correctIndex: 2,
+        explanation: "भारतीय संविधान २६ जानेवारी १९५० रोजी अधिकृतपणे अंमलात आले."
+      },
+      {
+        id: 5,
+        category: "मराठी व्याकरण",
+        question: "'ज्याला कशाचीही उपमा देता येत नाही असा' - या शब्दसमूहासाठी एक शब्द निवडा:",
+        options: ["अद्वितीय", "अनुपम", "अविनाशी", "अपरिमित"],
+        correctIndex: 1,
+        explanation: "ज्याची तुलना किंवा उपमा होऊ शकत नाही त्याला 'अनुपम' म्हटले जाते."
+      }
+    ];
+
+    let currentSelectedJob = null;
+    let currentFilter = 'सर्व';
+
+    function renderJobs(jobsToRender) {
+      const grid = document.getElementById('jobGrid');
+      const noResults = document.getElementById('noResults');
+      
+      if (!jobsToRender || jobsToRender.length === 0) {
+        grid.innerHTML = '';
+        noResults.classList.remove('hidden');
+        return;
+      }
+      
+      noResults.classList.add('hidden');
+      grid.innerHTML = jobsToRender.map(job => `
+        <div class="bg-white rounded-xl border border-slate-200 hover:border-orange-300 hover:shadow-lg transition flex flex-col justify-between overflow-hidden">
+          <div class="p-5">
+            <div class="flex items-center justify-between mb-3">
+              <span class="text-[11px] font-bold px-2 py-0.5 rounded text-white ${job.badgeColor || 'bg-brand-600'}">
+                ${job.badge || 'भरती'}
+              </span>
+              <span class="text-xs text-slate-400 font-medium">${job.category}</span>
+            </div>
+
+            <h3 class="font-bold text-slate-900 text-base sm:text-lg mb-1 leading-snug">
+              ${job.title}
+            </h3>
+            
+            <p class="text-xs text-slate-500 mb-4 flex items-center">
+              🏛️ ${job.department}
+            </p>
+
+            <div class="space-y-1.5 text-xs text-slate-600 bg-slate-50 p-3 rounded-lg border border-slate-100 mb-4">
+              <div class="flex justify-between">
+                <span class="text-slate-400">एकूण पदे:</span>
+                <span class="font-bold text-slate-800">${job.posts}</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-slate-400">अंतिम तारीख:</span>
+                <span class="font-bold text-red-600">${job.lastDate}</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="px-5 pb-5 pt-0 flex gap-2">
+            <button onclick="openJobModal(${job.id})" class="flex-1 py-2 px-3 bg-brand-50 hover:bg-brand-100 text-brand-700 text-xs font-bold rounded-lg border border-brand-200 transition">
+              सविस्तर पहा
+            </button>
+            <a href="${job.applyUrl}" target="_blank" class="flex-1 py-2 px-3 bg-brand-600 hover:bg-brand-700 text-white text-xs font-bold rounded-lg transition text-center shadow-sm">
+              थेट अर्ज
+            </a>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function searchJobs() {
+      const query = document.getElementById('jobSearchInput').value.toLowerCase().trim();
+      let filtered = jobListings;
+
+      if (currentFilter !== 'सर्व') {
+        filtered = filtered.filter(j => j.category === currentFilter);
+      }
+
+      if (query !== '') {
+        filtered = filtered.filter(j => 
+          j.title.toLowerCase().includes(query) || 
+          j.department.toLowerCase().includes(query)
+        );
+      }
+      renderJobs(filtered);
+    }
+
+    function filterCategory(cat) {
+      currentFilter = cat;
+      const pills = document.querySelectorAll('.filter-pill');
+      pills.forEach(p => {
+        if (p.textContent.trim().includes(cat) || (cat === 'सर्व' && p.textContent.includes('सर्व भरती'))) {
+          p.className = 'filter-pill active px-4 py-1.5 rounded-full text-xs font-semibold bg-brand-600 text-white whitespace-nowrap transition shadow-sm';
+        } else {
+          p.className = 'filter-pill px-4 py-1.5 rounded-full text-xs font-semibold bg-white border border-slate-200 text-slate-700 hover:bg-slate-100 whitespace-nowrap transition';
+        }
+      });
+      searchJobs();
+    }
+
+    function resetFilters() {
+      document.getElementById('jobSearchInput').value = '';
+      filterCategory('सर्व');
+    }
+
+    function openJobModal(id) {
+      const job = jobListings.find(j => j.id == id);
+      if (!job) return;
+      currentSelectedJob = job;
+
+      document.getElementById('modalCategory').textContent = job.category;
+      document.getElementById('modalTitle').textContent = job.title;
+      document.getElementById('modalDepartment').textContent = job.department;
+      document.getElementById('modalPosts').textContent = job.posts;
+      document.getElementById('modalLastDate').textContent = job.lastDate;
+      document.getElementById('modalLocation').textContent = job.location;
+      document.getElementById('modalQualification').textContent = job.qualification;
+      document.getElementById('modalAgeFee').textContent = job.ageFee;
+      document.getElementById('modalDescription').textContent = job.description;
+
+      document.getElementById('modalPdfLink').href = job.pdfUrl;
+      document.getElementById('modalApplyLink').href = job.applyUrl;
+
+      document.getElementById('jobModal').classList.remove('hidden');
+    }
+
+    function closeJobModal() {
+      document.getElementById('jobModal').classList.add('hidden');
+    }
+
+    function shareJobOnWhatsApp() {
+      if (!currentSelectedJob) return;
+      const text = `📢 *${currentSelectedJob.title}*
+विभाग: ${currentSelectedJob.department}
+जागा: ${currentSelectedJob.posts}
+शेवटची तारीख: ${currentSelectedJob.lastDate}
+
+ऑनलाईन अर्ज करा: ${window.location.href}`;
+      window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`, '_blank');
+    }
+
+    // Quiz Code
+    let currentQuestionIndex = 0;
+    let userAnswers = {};
+    let quizTimerInterval = null;
+    let secondsLeft = 300;
+
+    function initQuiz() {
+      currentQuestionIndex = 0;
+      userAnswers = {};
+      secondsLeft = 300;
+      clearInterval(quizTimerInterval);
+
+      document.getElementById('questionContainer').classList.remove('hidden');
+      document.getElementById('quizResultCard').classList.add('hidden');
+
+      startQuizTimer();
+      renderCurrentQuestion();
+    }
+
+    function startQuizTimer() {
+      const timerDisplay = document.getElementById('quizTimer');
+      quizTimerInterval = setInterval(() => {
+        secondsLeft--;
+        if (secondsLeft <= 0) {
+          clearInterval(quizTimerInterval);
+          finishQuiz();
+          return;
+        }
+        const mins = Math.floor(secondsLeft / 60);
+        const secs = secondsLeft % 60;
+        timerDisplay.textContent = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+      }, 1000);
+    }
+
+    function renderCurrentQuestion() {
+      const q = quizQuestions[currentQuestionIndex];
+      const total = quizQuestions.length;
+
+      document.getElementById('questionCategory').textContent = q.category;
+      document.getElementById('questionCounter').textContent = `प्रश्न ${currentQuestionIndex + 1} / ${total}`;
+      document.getElementById('questionText').textContent = `${currentQuestionIndex + 1}. ${q.question}`;
+      
+      const progressPercent = ((currentQuestionIndex + 1) / total) * 100;
+      document.getElementById('quizProgressBar').style.width = `${progressPercent}%`;
+
+      document.getElementById('prevQuestionBtn').disabled = (currentQuestionIndex === 0);
+
+      const nextBtn = document.getElementById('nextQuestionBtn');
+      nextBtn.innerHTML = (currentQuestionIndex === total - 1) ? `चाचणी जमा करा (Submit)` : `पुढील प्रश्न →`;
+
+      const optionsGrid = document.getElementById('optionsGrid');
+      const feedbackBox = document.getElementById('instantFeedback');
+      feedbackBox.classList.add('hidden');
+
+      const isAnswered = userAnswers.hasOwnProperty(q.id);
+      const selectedAns = userAnswers[q.id];
+
+      optionsGrid.innerHTML = q.options.map((opt, idx) => {
+        let btnStyle = "border-slate-200 bg-white hover:bg-slate-50 text-slate-800";
+        if (isAnswered) {
+          if (idx === q.correctIndex) {
+            btnStyle = "border-emerald-500 bg-emerald-50 text-emerald-900 font-bold";
+          } else if (idx === selectedAns) {
+            btnStyle = "border-red-500 bg-red-50 text-red-900 font-bold";
+          } else {
+            btnStyle = "border-slate-100 bg-slate-50 text-slate-400 opacity-60";
+          }
+        }
+
+        return `
+          <button onclick="selectAnswer(${q.id}, ${idx})" ${isAnswered ? 'disabled' : ''} class="p-3.5 border-2 rounded-xl text-left text-xs sm:text-sm flex items-center transition shadow-sm ${btnStyle}">
+            <span class="w-6 h-6 rounded-full border border-slate-300 flex items-center justify-center text-xs font-bold mr-2">${String.fromCharCode(65 + idx)}</span>
+            <span>${opt}</span>
+          </button>
+        `;
+      }).join('');
+
+      if (isAnswered) {
+        feedbackBox.classList.remove('hidden');
+        const feedbackTitle = document.getElementById('feedbackTitle');
+        const feedbackExplanation = document.getElementById('feedbackExplanation');
+
+        if (selectedAns === q.correctIndex) {
+          feedbackBox.className = "p-3.5 rounded-xl mb-6 text-xs sm:text-sm bg-emerald-50 border border-emerald-200 text-emerald-900";
+          feedbackTitle.innerHTML = `✓ अगदी बरोबर!`;
+        } else {
+          feedbackBox.className = "p-3.5 rounded-xl mb-6 text-xs sm:text-sm bg-rose-50 border border-rose-200 text-rose-900";
+          feedbackTitle.innerHTML = `✕ चूक! बरोबर उत्तर: ${q.options[q.correctIndex]}`;
+        }
+        feedbackExplanation.textContent = `स्पष्टीकरण: ${q.explanation}`;
+      }
+    }
+
+    function selectAnswer(questionId, selectedIndex) {
+      if (userAnswers.hasOwnProperty(questionId)) return;
+      userAnswers[questionId] = selectedIndex;
+      renderCurrentQuestion();
+    }
+
+    function nextQuestion() {
+      if (currentQuestionIndex < quizQuestions.length - 1) {
+        currentQuestionIndex++;
+        renderCurrentQuestion();
+      } else {
+        finishQuiz();
+      }
+    }
+
+    function prevQuestion() {
+      if (currentQuestionIndex > 0) {
+        currentQuestionIndex--;
+        renderCurrentQuestion();
+      }
+    }
+
+    function finishQuiz() {
+      clearInterval(quizTimerInterval);
+      let correct = 0;
+      let wrong = 0;
+      quizQuestions.forEach(q => {
+        if (userAnswers.hasOwnProperty(q.id)) {
+          if (userAnswers[q.id] === q.correctIndex) correct++;
+          else wrong++;
+        }
+      });
+
+      document.getElementById('questionContainer').classList.add('hidden');
+      document.getElementById('quizResultCard').classList.remove('hidden');
+
+      document.getElementById('resTotal').textContent = quizQuestions.length;
+      document.getElementById('resCorrect').textContent = correct;
+      document.getElementById('resWrong').textContent = wrong;
+    }
+
+    function shareScoreOnWhatsApp() {
+      const correct = document.getElementById('resCorrect').textContent;
+      const total = quizQuestions.length;
+      const text = `🎯 मी *मागाडे करिअर्स* वर सराव चाचणी दिली आणि मला ${total} पैकी ${correct} गुण मिळाले! 🏆
+
+तुम्हीही टेस्ट द्या: ${window.location.href}#quiz-section`;
+      window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`, '_blank');
+    }
+
+    function updateDate() {
+      const now = new Date();
+      const options = { year: 'numeric', month: 'long', day: 'numeric' };
+      document.getElementById('currentDate').textContent = now.toLocaleDateString('mr-IN', options);
+    }
+
+    window.onload = function() {
+      updateDate();
+      renderJobs(jobListings);
+      initQuiz();
+    };
+  </script>
+</body>
+</html>
