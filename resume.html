@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Clean ATS Resume Studio | Magade Careers</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --primary: #2563eb; --primary-hover: #1d4ed8; --primary-light: #eff6ff; --primary-border: #bfdbfe;
+      --accent: #0f172a; --success: #10b981; --success-light: #ecfdf5; --bg-main: #f8fafc;
+      --bg-card: #ffffff; --text-main: #0f172a; --text-muted: #64748b; --text-sub: #475569;
+      --border: #e2e8f0; --border-focus: #3b82f6; --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+      --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.06); --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.08);
+      --radius-sm: 8px; --radius-md: 12px; --radius-lg: 16px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', Arial, sans-serif; -webkit-font-smoothing: antialiased; }
+    body { background-color: var(--bg-main); color: var(--text-main); min-height: 100vh; display: flex; flex-direction: column; }
+    .navbar { background: rgba(255, 255, 255, 0.95); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 50; padding: 12px 20px; }
+    .nav-content { max-width: 1380px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
+    .brand-group { display: flex; align-items: center; gap: 12px; }
+    .brand-logo-badge { width: 40px; height: 40px; border-radius: var(--radius-sm); background: linear-gradient(135deg, #1e3a8a, #2563eb); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 20px; }
+    .brand-title { font-size: 17px; font-weight: 800; color: var(--text-main); }
+    .brand-subtitle { font-size: 12px; color: var(--text-muted); font-weight: 500; }
+    .nav-badge { background: var(--success-light); color: #047857; border: 1px solid #a7f3d0; font-size: 12px; font-weight: 700; padding: 5px 12px; border-radius: 9999px; }
+    .main-wrapper { max-width: 1400px; margin: 0 auto; padding: 20px 16px 50px; width: 100%; flex: 1; }
+    .app-grid { display: grid; grid-template-columns: 1fr; gap: 24px; }
+    @media (min-width: 1024px) { .app-grid { grid-template-columns: 540px 1fr; align-items: start; } }
+    .form-studio { background: var(--bg-card); border-radius: var(--radius-lg); border: 1px solid var(--border); box-shadow: var(--shadow-sm); padding: 20px; display: flex; flex-direction: column; gap: 14px; }
+    .studio-header { display: flex; align-items: center; justify-content: space-between; padding-bottom: 12px; border-bottom: 1px solid var(--border); }
+    .studio-header h2 { font-size: 16px; font-weight: 700; color: var(--text-main); }
+    .acc-card { border: 1px solid var(--border); border-radius: var(--radius-md); overflow: hidden; background: #fff; margin-bottom: 8px; }
+    .acc-trigger { width: 100%; background: #fff; padding: 13px 15px; border: none; display: flex; align-items: center; justify-content: space-between; cursor: pointer; font-size: 13.5px; font-weight: 700; color: var(--text-main); }
+    .acc-card.active .acc-trigger { background: var(--primary-light); color: var(--primary); }
+    .acc-content { display: none; padding: 16px 14px; background: #fff; border-top: 1px solid var(--border); }
+    .acc-card.active .acc-content { display: block; }
+    .field-group { margin-bottom: 12px; }
+    .field-row { display: grid; grid-template-columns: 1fr; gap: 10px; }
+    @media (min-width: 480px) { .field-row-2 { grid-template-columns: 1fr 1fr; } .field-row-3 { grid-template-columns: 2fr 1fr 1fr; } }
+    label { display: block; font-size: 12px; font-weight: 600; color: var(--text-sub); margin-bottom: 4px; }
+    input, textarea, select { width: 100%; padding: 9px 11px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 13px; color: var(--text-main); background: #fdfdfd; }
+    input:focus, textarea:focus, select:focus { outline: none; border-color: var(--border-focus); background: #fff; box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.14); }
+    textarea { resize: vertical; min-height: 68px; }
+    .nested-card { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: var(--radius-sm); padding: 12px; margin-bottom: 10px; }
+    .lang-item { display: flex; align-items: center; justify-content: space-between; gap: 10px; background: #f8fafc; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 8px 10px; margin-bottom: 8px; }
+    .lang-item input[type="checkbox"] { width: 16px; height: 16px; accent-color: var(--primary); }
+    .action-bar { display: flex; gap: 10px; margin-top: 8px; position: sticky; bottom: 12px; background: rgba(255, 255, 255, 0.95); padding: 10px; border-radius: var(--radius-md); border: 1px solid var(--border); box-shadow: var(--shadow-xl); z-index: 20; }
+    .btn { flex: 1; padding: 12px; border-radius: var(--radius-sm); font-size: 13.5px; font-weight: 700; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; }
+    .btn-view { background: #fff; color: var(--text-main); border: 1px solid var(--border); }
+    .btn-primary { background: linear-gradient(135deg, #1d4ed8, #2563eb); color: #fff; }
+    .preview-stage { background: #e2e8f0; border-radius: var(--radius-lg); padding: 20px; display: flex; flex-direction: column; align-items: center; }
+    @media (min-width: 1024px) { .preview-stage { position: sticky; top: 80px; max-height: calc(100vh - 100px); overflow-y: auto; } }
+    .stage-pill { background: #fff; border: 1px solid #cbd5e1; border-radius: 9999px; padding: 4px 12px; font-size: 11px; font-weight: 700; color: #334155; margin-bottom: 14px; }
+    .resume-a4-sheet { width: 100%; max-width: 660px; background: #fff; padding: 36px 32px; border-radius: 4px; box-shadow: 0 10px 25px rgba(0,0,0,0.06); min-height: 840px; color: #000; line-height: 1.45; font-family: Arial, sans-serif; }
+    .res-name { font-size: 18pt; font-weight: bold; text-align: center; text-transform: uppercase; margin-bottom: 4px; }
+    .res-contact { text-align: center; font-size: 9pt; margin-bottom: 12px; padding-bottom: 6px; border-bottom: 1.5px solid #000; }
+    .res-section-header { font-size: 10.5pt; font-weight: bold; text-transform: uppercase; border-bottom: 1px solid #000; margin-top: 12px; margin-bottom: 5px; padding-bottom: 2px; }
+    .res-content-block { white-space: pre-line; margin-bottom: 4px; font-size: 9.5pt; }
+    @media print {
+      @page { size: A4; margin: 12mm 15mm; }
+      body { background: #fff !important; padding: 0 !important; }
+      body * { visibility: hidden; }
+      .resume-a4-sheet, .resume-a4-sheet * { visibility: visible; }
+      .resume-a4-sheet { position: absolute; left: 0; top: 0; width: 100% !important; margin: 0 !important; padding: 0 !important; box-shadow: none !important; border: none !important; }
+      .navbar, .form-studio, .action-bar, .stage-pill { display: none !important; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="navbar">
+    <div class="nav-content">
+      <div class="brand-group">
+        <div class="brand-logo-badge">🏛️</div>
+        <div>
+          <div class="brand-title">Magade Careers</div>
+          <div class="brand-subtitle">Smart ATS Resume Studio</div>
+        </div>
+      </div>
+      <div class="nav-badge">100% Clean ATS Mode</div>
+    </div>
+  </header>
+
+  <main class="main-wrapper">
+    <div class="app-grid">
+      <section class="form-studio">
+        <div class="studio-header">
+          <h2>⚡ माहिती भरा (Fill Details)</h2>
+        </div>
+
+        <!-- १. संपर्क माहिती -->
+        <div class="acc-card active" id="acc1">
+          <button type="button" class="acc-trigger" onclick="toggleAcc('acc1')">👤 संपर्क माहिती (Contact) <span>▼</span></button>
+          <div class="acc-content">
+            <div class="field-group"><label>पूर्ण नाव (Full Name):</label><input type="text" id="inName" placeholder="उदा. Ramesh S. Patil" oninput="renderResume()"></div>
+            <div class="field-row field-row-2">
+              <div class="field-group"><label>मोबाईल क्रमांक:</label><input type="tel" id="inPhone" placeholder="उदा. +91 9876543210" oninput="renderResume()"></div>
+              <div class="field-group"><label>ईमेल आयडी:</label><input type="email" id="inEmail" placeholder="उदा. candidate.email@example.com" oninput="renderResume()"></div>
+            </div>
+            <div class="field-row field-row-2">
+              <div class="field-group"><label>शहर, राज्य:</label><input type="text" id="inLoc" placeholder="उदा. Mumbai, Maharashtra" oninput="renderResume()"></div>
+              <div class="field-group"><label>LinkedIn प्रोफाईल (पर्यायी):</label><input type="text" id="inLink" placeholder="उदा. linkedin.com/in/username" oninput="renderResume()"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- २. करिअर सारांश -->
+        <div class="acc-card" id="acc2">
+          <button type="button" class="acc-trigger" onclick="toggleAcc('acc2')">🎯 करिअर सारांश (Summary) <span>▼</span></button>
+          <div class="acc-content">
+            <div class="field-group"><label>संक्षिप्त परिचय:</label><textarea id="inSummary" rows="3" placeholder="उदा. Motivated and organized professional seeking an entry-level opportunity to contribute effectively..." oninput="renderResume()"></textarea></div>
+          </div>
+        </div>
+
+        <!-- ३. कौशल्ये -->
+        <div class="acc-card" id="acc3">
+          <button type="button" class="acc-trigger" onclick="toggleAcc('acc3')">⚡ प्रमुख कौशल्ये (Skills) <span>▼</span></button>
+          <div class="acc-content">
+            <div class="field-group"><label>कॉम्प्युटर व सॉफ्टवेअर:</label><input type="text" id="inSkillComp" placeholder="उदा. MS Office, MS Excel, Word, Google Tools" oninput="renderResume()"></div>
+            <div class="field-group"><label>डेटा व ऑपरेशन्स:</label><input type="text" id="inSkillData" placeholder="उदा. Data Entry, Record Keeping, Office Coordination" oninput="renderResume()"></div>
+            <div class="field-group"><label>वैयक्तिक क्षमता:</label><input type="text" id="inSkillSoft" placeholder="उदा. Attention to Detail, Communication, Time Management" oninput="renderResume()"></div>
+          </div>
+        </div>
+
+        <!-- ४. कामाचा अनुभव -->
+        <div class="acc-card" id="acc4">
+          <button type="button" class="acc-trigger" onclick="toggleAcc('acc4')">💼 कामाचा अनुभव (Experience) <span>▼</span></button>
+          <div class="acc-content">
+            <div class="field-row field-row-2">
+              <div class="field-group"><label>कामाचे पद:</label><input type="text" id="inExpRole" placeholder="उदा. Executive Assistant / Operations Trainee" oninput="renderResume()"></div>
+              <div class="field-group"><label>प्रकार:</label><select id="inExpType" onchange="renderResume()"><option value="Full-time">Full-time</option><option value="Contract">Contract</option><option value="Internship">Internship</option></select></div>
+            </div>
+            <div class="field-row field-row-2">
+              <div class="field-group"><label>कंपनीचे नाव:</label><input type="text" id="inExpCompany" placeholder="उदा. ABC Solutions Pvt. Ltd." oninput="renderResume()"></div>
+              <div class="field-group"><label>कालावधी:</label><input type="text" id="inExpDuration" placeholder="उदा. Jan 2023 - Dec 2023" oninput="renderResume()"></div>
+            </div>
+            <div class="field-group"><label>जबाबदाऱ्या (Bullet Points):</label><textarea id="inExpBullets" rows="3" placeholder="* Handled day-to-day administrative documentation and team reporting.&#10;* Maintained systematic electronic records with high accuracy." oninput="renderResume()"></textarea></div>
+          </div>
+        </div>
+
+        <!-- ५. शैक्षणिक पात्रता -->
+        <div class="acc-card" id="acc5">
+          <button type="button" class="acc-trigger" onclick="toggleAcc('acc5')">🎓 शैक्षणिक पात्रता (Education) <span>▼</span></button>
+          <div class="acc-content">
+            <div class="nested-card">
+              <div class="field-row field-row-2">
+                <div class="field-group"><label>पदवी (Degree):</label><input type="text" id="inEdu1Degree" placeholder="उदा. Bachelor of Commerce (B.Com)" oninput="renderResume()"></div>
+                <div class="field-group"><label>युनिव्हर्सिटी / संस्था:</label><input type="text" id="inEdu1Univ" placeholder="उदा. State University" oninput="renderResume()"></div>
+              </div>
+              <div class="field-row field-row-2">
+                <div class="field-group"><label>उत्तीर्ण वर्ष:</label><input type="text" id="inEdu1Year" placeholder="उदा. 2022" oninput="renderResume()"></div>
+                <div class="field-group"><label>गुण (%):</label><input type="text" id="inEdu1Score" placeholder="उदा. 70.00%" oninput="renderResume()"></div>
+              </div>
+            </div>
+            <div class="nested-card">
+              <div class="field-row field-row-2">
+                <div class="field-group"><label>१२ वी वर्ष (HSC Year):</label><input type="text" id="inEdu2Year" placeholder="उदा. 2019" oninput="renderResume()"></div>
+                <div class="field-group"><label>१२ वी गुण (%):</label><input type="text" id="inEdu2Score" placeholder="उदा. 65.00%" oninput="renderResume()"></div>
+              </div>
+            </div>
+            <div class="nested-card">
+              <div class="field-row field-row-2">
+                <div class="field-group"><label>१० वी वर्ष (SSC Year):</label><input type="text" id="inEdu3Year" placeholder="उदा. 2017" oninput="renderResume()"></div>
+                <div class="field-group"><label>१० वी गुण (%):</label><input type="text" id="inEdu3Score" placeholder="उदा. 70.00%" oninput="renderResume()"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ६. भाषा -->
+        <div class="acc-card" id="acc6">
+          <button type="button" class="acc-trigger" onclick="toggleAcc('acc6')">🗣️ अवगत भाषा (Languages) <span>▼</span></button>
+          <div class="acc-content">
+            <div class="lang-item"><label><input type="checkbox" id="chkMar" checked onchange="renderResume()"> मराठी</label><select id="profMar" onchange="renderResume()"><option value="Native">Native</option><option value="Fluent">Fluent</option></select></div>
+            <div class="lang-item"><label><input type="checkbox" id="chkHin" checked onchange="renderResume()"> हिंदी</label><select id="profHin" onchange="renderResume()"><option value="Fluent">Fluent</option><option value="Conversational">Conversational</option></select></div>
+            <div class="lang-item"><label><input type="checkbox" id="chkEng" checked onchange="renderResume()"> इंग्रजी</label><select id="profEng" onchange="renderResume()"><option value="Professional Working">Professional Working</option><option value="Fluent">Fluent</option></select></div>
+          </div>
+        </div>
+
+        <!-- ७. प्रमाणपत्रे -->
+        <div class="acc-card" id="acc7">
+          <button type="button" class="acc-trigger" onclick="toggleAcc('acc7')">📜 प्रमाणपत्रे (Certifications) <span>▼</span></button>
+          <div class="acc-content">
+            <div class="field-group"><textarea id="inCert" rows="2" placeholder="* Certificate in Computer Applications&#10;* Office Productivity & Data Tools Training" oninput="renderResume()"></textarea></div>
+          </div>
+        </div>
+
+        <div class="action-bar">
+          <button type="button" class="btn btn-view" onclick="document.getElementById('stageWrapper').scrollIntoView({behavior:'smooth'})">👁️ प्रिव्ह्यू</button>
+          <button type="button" class="btn btn-primary" onclick="window.print()">📥 Download PDF</button>
+        </div>
+      </section>
+
+      <!-- उजवा विभाग: लाइव्ह A4 शीट -->
+      <section class="preview-stage" id="stageWrapper">
+        <div class="stage-pill">Live A4 Preview (ATS Compliant)</div>
+        <div class="resume-a4-sheet">
+          <div class="res-name" id="viewName">YOUR FULL NAME</div>
+          <div class="res-contact" id="viewContact">City, State | Phone | Email | LinkedIn</div>
+          <div id="blockSummary"><div class="res-section-header">• PROFESSIONAL SUMMARY</div><div class="res-content-block" id="viewSummary">Motivated and organized professional seeking an entry-level opportunity to contribute effectively to team and organizational success.</div></div>
+          <div id="blockSkills"><div class="res-section-header">• CORE SKILLS</div><div class="res-content-block" id="viewSkills">Computer & Software: MS Office, Word, Excel&#10;Data Management: Data Entry, Record Keeping, Office Coordination</div></div>
+          <div id="blockExperience"><div class="res-section-header">• WORK EXPERIENCE</div><div class="res-content-block" id="viewExperience">Executive Assistant (Full-time)&#10;ABC Solutions Pvt. Ltd. | Jan 2023 - Dec 2023&#10;* Handled day-to-day administrative documentation and team reporting.&#10;* Maintained systematic electronic records with high accuracy.</div></div>
+          <div id="blockEducation"><div class="res-section-header">• EDUCATION</div><div class="res-content-block" id="viewEducation">Bachelor of Commerce (B.Com)&#10;State University | Year: 2022 | 70.00%&#10;&#10;Higher Secondary Certificate (HSC - 12th)&#10;State Board | Year: 2019 | 65.00%&#10;&#10;Secondary School Certificate (SSC - 10th)&#10;State Board | Year: 2017 | 70.00%</div></div>
+          <div id="blockCertifications"><div class="res-section-header">• CERTIFICATIONS & TECHNICAL PROFICIENCY</div><div class="res-content-block" id="viewCertifications">* Certificate in Computer Applications&#10;* Office Productivity & Data Tools Training</div></div>
+          <div id="blockAdditional"><div class="res-section-header">• ADDITIONAL INFORMATION</div><div class="res-content-block" id="viewAdditional">* Languages Known: Marathi (Native), Hindi (Fluent), English (Professional Working)&#10;* Work Availability: Immediate Joiner</div></div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <script>
+    function toggleAcc(id) { const el = document.getElementById(id); if (el) el.classList.toggle('active'); }
+    function renderResume() {
+      const name = document.getElementById('inName').value.trim();
+      const phone = document.getElementById('inPhone').value.trim();
+      const email = document.getElementById('inEmail').value.trim();
+      const loc = document.getElementById('inLoc').value.trim();
+      const link = document.getElementById('inLink').value.trim();
+      document.getElementById('viewName').innerText = name || "YOUR FULL NAME";
+      let c = []; if(loc) c.push(loc); if(phone) c.push(phone); if(email) c.push(email); if(link) c.push("LinkedIn: " + link);
+      document.getElementById('viewContact').innerText = c.length ? c.join(" | ") : "City, State | Phone | Email | LinkedIn";
+      const sum = document.getElementById('inSummary').value.trim();
+      document.getElementById('viewSummary').innerText = sum || "Motivated and organized professional seeking an entry-level opportunity to contribute effectively to team and organizational success.";
+      let sk = [];
+      const c1 = document.getElementById('inSkillComp').value.trim(); if(c1) sk.push("Computer & Software: " + c1);
+      const c2 = document.getElementById('inSkillData').value.trim(); if(c2) sk.push("Data Management: " + c2);
+      const c3 = document.getElementById('inSkillSoft').value.trim(); if(c3) sk.push("Key Strengths: " + c3);
+      if(sk.length) document.getElementById('viewSkills').innerText = sk.join("\n");
+      const role = document.getElementById('inExpRole').value.trim();
+      const comp = document.getElementById('inExpCompany').value.trim();
+      const dur = document.getElementById('inExpDuration').value.trim();
+      const bullets = document.getElementById('inExpBullets').value.trim();
+      if(role || comp) {
+        document.getElementById('viewExperience').innerText = (role ? role + " (" + document.getElementById('inExpType').value + ")\n" : "") + (comp ? comp : "") + (dur ? " | " + dur : "") + (bullets ? "\n" + bullets : "");
+      }
+      let edu = [];
+      const d1 = document.getElementById('inEdu1Degree').value.trim();
+      const u1 = document.getElementById('inEdu1Univ').value.trim();
+      const y1 = document.getElementById('inEdu1Year').value.trim();
+      const s1 = document.getElementById('inEdu1Score').value.trim();
+      if(d1 || u1) edu.push((d1 || "Degree") + "\n" + (u1 || "University") + (y1 ? " | Year: " + y1 : "") + (s1 ? " | " + s1 : ""));
+      const y2 = document.getElementById('inEdu2Year').value.trim();
+      const s2 = document.getElementById('inEdu2Score').value.trim();
+      if(y2 || s2) edu.push("Higher Secondary Certificate (HSC - 12th)\nState Board" + (y2 ? " | Year: " + y2 : "") + (s2 ? " | " + s2 : ""));
+      const y3 = document.getElementById('inEdu3Year').value.trim();
+      const s3 = document.getElementById('inEdu3Score').value.trim();
+      if(y3 || s3) edu.push("Secondary School Certificate (SSC - 10th)\nState Board" + (y3 ? " | Year: " + y3 : "") + (s3 ? " | " + s3 : ""));
+      if(edu.length) document.getElementById('viewEducation').innerText = edu.join("\n\n");
+      let langs = [];
+      if(document.getElementById('chkMar').checked) langs.push("Marathi (" + document.getElementById('profMar').value + ")");
+      if(document.getElementById('chkHin').checked) langs.push("Hindi (" + document.getElementById('profHin').value + ")");
+      if(document.getElementById('chkEng').checked) langs.push("English (" + document.getElementById('profEng').value + ")");
+      if(langs.length) document.getElementById('viewAdditional').innerText = "* Languages Known: " + langs.join(", ") + "\n* Work Availability: Immediate Joiner";
+      const cert = document.getElementById('inCert').value.trim();
+      if(cert) document.getElementById('viewCertifications').innerText = cert;
+    }
+    window.addEventListener('DOMContentLoaded', renderResume);
+  </script>
+</body>
+</html>
